@@ -104,7 +104,7 @@ class Cat(pygame.sprite.Sprite):
         if pressed_keys[K_3]:
             self.change_color(2)
 
-class Catch(pygame.sprite.Sprite):
+class Catchable(pygame.sprite.Sprite):
     """ 
     Represents the items that can be fished up
     """
@@ -117,10 +117,10 @@ class Catch(pygame.sprite.Sprite):
         self.image = load_image(catch_path)
         self.time = None
 
-    def update(self, millisecs):
+    def update(self):
         if self.time is not None:  # If the timer has been started...
             # and 500 ms have elapsed, kill the sprite.
-            if pygame.time.get_ticks() - self.time >= millisecs:
+            if pygame.time.get_ticks() - self.time >= 750:
                 self.kill()
 
 
@@ -133,7 +133,6 @@ class Throwable(pygame.sprite.Sprite):
         self.index = 0
         self.images = [load_image('data/images/bobber/' + img) for img in os.listdir('data/images/bobber')]
         self.image = self.images[1]
-        print(os.listdir('data/images/bobber'))
         self.rect = pygame.Rect(15,15,15,15)
         self.rect.center = (169, 106)
 
@@ -158,8 +157,8 @@ j = 1 #counter for the boat animation
 instructions = 1 #counter for the instructions animation
 
 player = Cat()
-bobbob = Throwable()
-group = pygame.sprite.Group([player, bobbob])
+bobber = Throwable()
+group = pygame.sprite.Group([player, bobber])
 
 #these variables are for the power bar
 power_level = 5
@@ -188,6 +187,26 @@ while running:
             instructions = 1
         instructions += 1
 
+    #visualize the power bar after instructions disappear
+    if instructions == 0:
+        pygame.draw.rect(instructions_surf, power_color, (bar_x, bar_y, power_level, bar_height), 0, 3)
+        instructions_surf.blit(power_bar_outline,(24,16))
+
+    #power bar --------------------------------------
+    power_bar_outline = load_image('data/images/power_bar.png')
+    if power_level < 20:
+        power_color = (255,0,0)
+    elif power_level < 50:
+        power_color = (255, 165, 0)
+    elif power_level < 75:
+        power_color = (234, 255, 0)
+    else: 
+        power_color = (50,205,50)
+    
+    #fishing pole ------------------------------------
+    fishing_pole = load_image('data/images/fishing_pole/normal/normal_pole.png')
+    instructions_surf.blit(fishing_pole, (164,59))
+    
     #boat------------------------------------
     if j != 0:
         if j < 10:
@@ -240,34 +259,35 @@ while running:
 
         if event.type == KEYUP:
             if event.key == K_SPACE:
-                distance = power_level
                 #enemy.time = pygame.time.get_ticks()
+                if power_level <= 20:
+                    bobber.rect.center = (169, 106)
+                elif power_level <= 30:
+                    bobber.rect.center = (160, 110)
+                elif power_level <= 40:
+                    bobber.rect.center = (150, 115)
+                elif power_level <= 50:
+                    bobber.rect.center = (140, 120)
+                elif power_level <= 60:
+                    bobber.rect.center = (130, 125)
+                elif power_level <= 70:
+                    bobber.rect.center = (120, 130)
+                elif power_level <= 80:
+                    bobber.rect.center = (110, 135)
+                elif power_level <= 90:
+                    bobber.rect.center = (100, 140)
+                elif power_level < 106:
+                    bobber.rect.center = (90, 145)
+                elif 108 > power_level  >= 106:
+                    bobber.rect.center = (80, 150)
                 
-
-        if power_level > 108:
+        if power_level >= 108:
             power_level = 5
 
         
 
-    #power bar --------------------------------------
-    power_bar_outline = load_image('data/images/power_bar.png')
-    if power_level < 20:
-        power_color = (255,0,0)
-    elif power_level < 50:
-        power_color = (255, 165, 0)
-    elif power_level < 75:
-        power_color = (234, 255, 0)
-    else: 
-        power_color = (50,205,50)
-    
-    #visualize the power bar after instructions disappear
-    if instructions == 0:
-        pygame.draw.rect(instructions_surf, power_color, (bar_x, bar_y, power_level, bar_height), 0, 3)
-        instructions_surf.blit(power_bar_outline,(24,16))
 
-    #fishing pole and bobber ------------------------------------
-    fishing_pole = load_image('data/images/fishing_pole/normal/normal_pole.png')
-    instructions_surf.blit(fishing_pole, (164,59))
+
 
     #display images
     group.update(pressed_keys, event)
