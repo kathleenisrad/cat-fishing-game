@@ -108,13 +108,12 @@ class Catchable(pygame.sprite.Sprite):
     """ 
     Represents the items that can be fished up
     """
-    def __init__(self, type, spawn_rate, pull_strength, points, catch_path):
-        super(Catch, self).__init__()
+    def __init__(self, type, pull_strength, points):
+        super(Catchable, self).__init__()
         self.type = type
-        self.spawn_rate = spawn_rate
         self.pull_strength = pull_strength
         self.points = points
-        self.image = load_image(catch_path)
+        #self.image = load_image(catch_path)
         self.time = None
 
     def update(self):
@@ -159,6 +158,7 @@ instructions = 1 #counter for the instructions animation
 player = Cat()
 bobber = Throwable()
 group = pygame.sprite.Group([player, bobber])
+fish_group = pygame.sprite.Group()
 
 #these variables are for the power bar
 power_level = 5
@@ -169,6 +169,18 @@ x_change = 0
 
 #fish 
 #fish_types = [{type: salmon, }]
+ADDFISH = pygame.USEREVENT + 1
+
+fish_dictionary = {
+    'salmon': {'pull_strength' : 5, 
+               'points' : 10,},
+    'trout':  {'pull_strength' : 10, 
+               'points' : 20,},
+    'tuna':  {'pull_strength' : 10, 
+               'points' : 20,}        
+}
+
+
 ## GAME LOOP --------------------------------
 while running:
     background_surf.fill((240, 255, 255))
@@ -206,7 +218,7 @@ while running:
     #fishing pole ------------------------------------
     fishing_pole = load_image('data/images/fishing_pole/normal/normal_pole.png')
     instructions_surf.blit(fishing_pole, (164,59))
-    
+
     #boat------------------------------------
     if j != 0:
         if j < 10:
@@ -280,14 +292,27 @@ while running:
                     bobber.rect.center = (90, 145)
                 elif 108 > power_level  >= 106:
                     bobber.rect.center = (80, 150)
-                
+
+                fish_event = pygame.event.Event(ADDFISH)
+                pygame.event.post(fish_event)
+
+        elif event.type == ADDFISH:
+            if power_level <= 25:
+                fish_weights = [50,25,25]
+            elif power_level <= 75:
+                fish_weights = [34,33,33]
+            elif power_level < 106:
+                fish_weights = [25,25,50]
+            elif 108 > power_level  >= 106:
+                fish_weights = [0,0,100]
+
+            fish_spawned = random.choices(['salmon', 'trout', 'tuna'], fish_weights,k=1)[0]
+
+            new_fish = Catchable(type=fish_spawned, pull_strength = fish_dictionary[fish_spawned]['pull_strength'], points = fish_dictionary[fish_spawned]['points'])
+
+            print(f'You caught a {fish_spawned}! It is worth {new_fish.points} points!')
         if power_level >= 108:
             power_level = 5
-
-        
-
-
-
 
     #display images
     group.update(pressed_keys, event)
