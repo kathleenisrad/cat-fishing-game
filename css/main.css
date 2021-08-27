@@ -1,0 +1,116 @@
+@import 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img{
+  max-width:100%;
+  max-height: 100%;
+  height:auto;
+}
+
+html, body {
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+}
+
+table, th, td {
+  					border: 1px solid black;
+					  text-align: center;
+            font-family: 'Roboto', sans-serif;
+					  }
+
+h1 {
+  margin-top: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  margin-left: 25%;
+  margin-right:25%;
+}
+
+h2 {
+  margin-top: 30;
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
+  margin-left: 25%;
+  margin-right:25%;
+}
+
+h3 {
+  margin-top: 30;
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  margin-left: 25%;
+  margin-right:25%;
+}
+
+h4 {
+  margin-top: 30;
+  font-family: 'Playfair Display', serif;
+  font-size: 30px
+  margin-left: 25%;
+  margin-right:25%;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  margin-left: 25%;
+  margin-right:25%;
+  text-align: left
+}
+
+/* Nav bar */
+
+ nav ul {
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  font-size: 1.2em; 
+  background-color: #Fff;
+}
+
+nav ul li {
+  display: inline-block; 
+}
+
+nav ul li a {
+  color: #000;
+  text-decoration: none;  
+}
+nav ul li a:hover {
+  color: #ababab;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+   font-family: 'Playfair Display', serif;
+  font-size: 30px
+}
+
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* mobile section */
+
+@media screen and (max-width: 400px) {
+  nav ul {
+    text-align: center;
+  }
+  nav ul li {
+    margin: 20px;
+  }
+  .project {
+    margin: 40px 0;
+  }
+}
