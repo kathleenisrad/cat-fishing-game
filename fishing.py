@@ -49,21 +49,18 @@ instructions_surf = background_surf.copy()
 cat_path = 'data/images/cat/'
 boat_path = 'data/images/boat/'
 water_path = 'data/images/water_tile/'
+pole_path = 'data/images/fishing_pole/'
 instructions_path = 'data/images/instructions/'
 
 boat_tiles = os.listdir(boat_path)    
 water_tiles = os.listdir(water_path)
 instructions_imgs = os.listdir(instructions_path)
 
-f = open('./data/map.txt')
-map_data = [[int(c) for c in row] for row in f.read().split('\n')]
-f.close()
-
 ## CLASSES-----------------------------------
 class Cat(pygame.sprite.Sprite):
     """
     Represents the cat controlled by the player. 
-    Press and hold spacebar to increase throwing distance. 
+    Press 1, 2 , or 3 to change the cat color.
     Alternate pressing left and right arrow keys to reel in the line. 
     """
     def __init__(self):
@@ -72,6 +69,7 @@ class Cat(pygame.sprite.Sprite):
         self.index = 0
         self.images = [load_image(cat_path + self.color[0] + img) for img in os.listdir(cat_path + self.color[0])]
         self.image = self.images[1]
+        self.throw = False
         
         self.rect = pygame.Rect(24,26,24,26)
         self.rect.center = (180, 80)
@@ -86,23 +84,70 @@ class Cat(pygame.sprite.Sprite):
         displays the next one each tick. 
         Change the sprite color by pressing 1, 2, or 3.
         '''
-        self.index += 1
-        if self.index != 0:
-            if self.index > 14:
-                self.index = 1
-            if self.index < 7:
-                self.image = self.images[0]
-            else:
-                self.image = self.images[1]
+        if self.throw == False:
+            self.index += 1
+            if self.index != 0:
+                if self.index > 14:
+                    self.index = 1
+                if self.index < 7:
+                    self.image = self.images[0]
+                else:
+                    self.image = self.images[1]
+        else:
+            self.index += 1
+            if self.index != 0:
+                if self.index > 20:
+                    self.throw = False
+                    self.index=1
+                if 1 < self.index < 13:
+                    self.image = self.images[2]
+                else:
+                    self.image = self.images[3]
 
         if pressed_keys[K_1]:
             self.change_color(1)
-
         if pressed_keys[K_2]:
             self.change_color(0)
-        
         if pressed_keys[K_3]:
             self.change_color(2)
+
+class Pole(pygame.sprite.Sprite):
+    """
+    Represents the cat controlled by the player. 
+    Press 1, 2 , or 3 to change the cat color.
+    Alternate pressing left and right arrow keys to reel in the line. 
+    """
+    def __init__(self):
+        super(Pole, self).__init__()
+        self.index = 0
+        self.type = ['normal/']
+        self.images = [load_image(pole_path + self.type[0] + img) for img in os.listdir(pole_path + self.type[0])]
+        self.image = self.images[0]
+        self.throw = False
+        self.rect = pygame.Rect(50,50,50,50)
+        
+    def update(self, pressed_keys, event):
+        '''
+        This method iterates through the elements inside self.images and 
+        displays the next one each tick. 
+        Change the sprite color by pressing 1, 2, or 3.
+        '''
+        if self.throw == False:
+            self.image = self.images[0]
+            self.rect.center = (189,84)
+            
+        else:
+            self.index += 1
+            if self.index != 0:
+                if self.index > 20:
+                    self.throw = False
+                    self.index=1
+                if 1 < self.index < 13:
+                    self.image = self.images[1]
+                    self.rect.center = (202,86)
+                else:
+                    self.image = self.images[2]
+                    self.rect.center = (156,93)
 
 class Catchable(pygame.sprite.Sprite):
     """ 
@@ -147,28 +192,32 @@ class Throwable(pygame.sprite.Sprite):
             if self.index < 12:
                 self.image = self.images[0]
             else:
-                self.image = self.images[1]
+                self.image = self.images[1]          
 
 ## VARIABLES TO BE USED IN GAME LOOP --------------------------------
 running = True
 
-j = 1 #counter for the boat animation
-instructions = 1 #counter for the instructions animation
+#counters
+j = 1 #boat animation
+instructions = 1 #instructions animation
 
+#class instances
 player = Cat()
 bobber = Throwable()
-group = pygame.sprite.Group([player, bobber])
+pole = Pole()
+
+#sprite groups
+group = pygame.sprite.Group([player, bobber, pole])
 fish_group = pygame.sprite.Group()
 
-#these variables are for the power bar
+#power bar
 power_level = 5
 bar_x = 25
 bar_y = 25
 bar_height = 10
 x_change = 0
 
-#fish 
-#fish_types = [{type: salmon, }]
+#fish variables
 ADDFISH = pygame.USEREVENT + 1
 
 fish_dictionary = {
@@ -199,27 +248,25 @@ while running:
             instructions = 1
         instructions += 1
 
+    #power bar ---------------------------------
+    power_bar_outline = load_image('data/images/power_bar.png')
+
+    if power_level < 20:
+        power_color = (255,0,0) #red
+    elif power_level < 50:
+        power_color = (255, 165, 0) #orange
+    elif power_level < 75:
+        power_color = (234, 255, 0) #yellow
+    else: 
+        power_color = (50,205,50) #green
+
     #visualize the power bar after instructions disappear
     if instructions == 0:
         pygame.draw.rect(instructions_surf, power_color, (bar_x, bar_y, power_level, bar_height), 0, 3)
         instructions_surf.blit(power_bar_outline,(24,16))
-
-    #power bar --------------------------------------
-    power_bar_outline = load_image('data/images/power_bar.png')
-    if power_level < 20:
-        power_color = (255,0,0)
-    elif power_level < 50:
-        power_color = (255, 165, 0)
-    elif power_level < 75:
-        power_color = (234, 255, 0)
-    else: 
-        power_color = (50,205,50)
     
-    #fishing pole ------------------------------------
-    fishing_pole = load_image('data/images/fishing_pole/normal/normal_pole.png')
-    instructions_surf.blit(fishing_pole, (164,59))
 
-    #boat------------------------------------
+    #boat--------------------------------------
     if j != 0:
         if j < 10:
             boat_tile = load_image(boat_path + boat_tiles[0])
@@ -272,6 +319,10 @@ while running:
         if event.type == KEYUP:
             if event.key == K_SPACE:
                 #enemy.time = pygame.time.get_ticks()
+                player.index = 1
+                player.throw = True
+                pole.throw = True
+                
                 if power_level <= 20:
                     bobber.rect.center = (169, 106)
                 elif power_level <= 30:
@@ -290,7 +341,7 @@ while running:
                     bobber.rect.center = (100, 140)
                 elif power_level < 106:
                     bobber.rect.center = (90, 145)
-                elif 108 > power_level  >= 106:
+                elif 108 >= power_level  >= 106:
                     bobber.rect.center = (80, 150)
 
                 fish_event = pygame.event.Event(ADDFISH)
@@ -311,6 +362,7 @@ while running:
             new_fish = Catchable(type=fish_spawned, pull_strength = fish_dictionary[fish_spawned]['pull_strength'], points = fish_dictionary[fish_spawned]['points'])
 
             print(f'You caught a {fish_spawned}! It is worth {new_fish.points} points!')
+
         if power_level >= 108:
             power_level = 5
 
