@@ -28,3 +28,77 @@
 <br>
 	 <br>
 <br>
+	 
+	 <h2><center> Neural Style Transfer Implementation <center> </h2>
+	<br>
+	 <p>Implementing 'A Neural Algorithm of Artistic Style' paper in Tensorflow/Keras.
+I took on this project to help further my understanding of how neural networks work and learn how to translate papers into code.  </p>
+	<br>
+	<p> <a href="https://arxiv.org/pdf/1508.06576v2.pdf"> Link to paper </a> </p>
+<p> <a href="https://github.com/kathleenisrad/style-transfer-implementation/blob/main/style-transfer-tensorflow-keras.ipynb"> Notebook with code </a> </p>
+	<br>
+	<p> I took advantage of the GPUs on Google Colab to run my images. </p>
+	<p>It took only an hour to run 7000 iterations. When I ran 500 iterations on my laptop, it took 2 hours. </p>
+	<br>
+	<p> Below is the link to a sandbox version of my code if you would like to try out your own images! </p>
+	<p><a href = "https://colab.research.google.com/drive/19aV7ILYTLI0DAkSlerysgfIXL5_t4rPW?usp=sharing"> Play with the code on Google Colab </a></p>
+
+	<br><br>
+	<h3><center> Results:</center> </h3>
+	<p>The parameters I used were:<p> <br>
+	<center>	
+<table>
+  <tr>
+    <th> Model </th>
+    <th> Iterations </th>
+    <th> Learning Rate </th>
+    <th> Alpha </th>
+    <th> Beta </th>
+    <th> Optimizer </th>
+  </tr>
+  <tr>
+    <td>VGG19</td>
+    <td>500</td>
+    <td>10</td>
+	  <td> 0.2</td>
+    <td>0.8</td>
+    <td>Adam</td>
+  </tr>
+	</table> </center>
+<br> <p>I did not notice any signifiant difference between the outputs of 500 iterations and 1000 iterations, so I used 500 iterations to save time. </p>
+
+	<br>	<h3><p> Starry Night Cat: </p></h3>
+		<p> <center><img src = "https://i.imgur.com/cCBuebB.jpg"></center> </p><br><br>
+		<h3><p> Dots Cat: </p></h3>
+		<p><center> <img src = "https://i.imgur.com/8cke2Tg.jpg"></center> </p><br><br>
+		<h3><p> Picasso Cat: </p></h3>
+		<p> <center><img src = "https://i.imgur.com/NJSC18n.jpg"> </center></p><br><br>
+		<h3><p> Scream Cat: </p></h3>
+		<p><center> <img src = "https://i.imgur.com/056ZFad.jpg"> </p><br><br><br></center>
+	 
+	 <br><br>
+	<p> I also did some style transfers on a photo of Zion National Park: </p>
+	<br>
+	<h3><p> Starry Night Zion: </p></h3>
+		<p> <center><img src = "https://i.imgur.com/o5eArUT.jpg"></center> </p><br><br>
+		<h3><p> Dots Zion: </p></h3>
+		<p><center> <img src = "https://i.imgur.com/2IkjGTc.jpg"></center> </p><br><br>
+		<h3><p> Picasso Zion: </p></h3>
+		<p> <center><img src = "https://i.imgur.com/wLdLQBY.jpg"> </center></p><br><br>
+		<h3><p> Scream Zion: </p></h3>
+		<p><center> <img src = "https://i.imgur.com/AwhFpp7.jpg"> </p><br><br><br></center>
+	 <br>
+	 <p> I personally think the style transfer looks better on the landscape photo, but I'm pleased with the results on the cat image as well. </p>
+		<br><br>
+
+<h3><center> Visualizations of images at different convolutional layers<center> </h3>
+<p>In the paper, they visualize the outputs of the VGG19 model at different layers, so I do the same with the starry night and cat images:  </p>
+<br><br>
+	<p><b>Style image:</b></p>
+
+<p><img src = "https://i.imgur.com/mXaQ8Wr.png"></p>
+
+<br><br><br>
+	<p><b>Content image:</b></p>
+
+<p><img src = "https://i.imgur.com/Ix3x5zJ.png"></p>
