@@ -1,6 +1,6 @@
 # Cat Fishing Minigame WIP
 My very first pygame game.    
-Press and hold spacebar to power up the power bar, let go to throw the fishing pole.  (done!)
+Press and hold spacebar to power up the power bar, let go to throw the fishing pole.  (done!)    
 Wait for a bite, and then reel in the fish (or other items in the lake)!   (not implemented yet)
 Press 1, 2, 3 to change the color of the cat. (done!)
 
