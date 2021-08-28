@@ -4,6 +4,11 @@ Press and hold spacebar to power up the power bar, let go to throw the fishing p
 Wait for a bite, and then reel in the fish (or other items in the lake)!   
 Press 1, 2, 3 to change the color of the cat.
 
+## Day 10:
+<img src = "https://imgur.com/a/lHytF39.gif">
+Made the throwing animation for the white cat only. 
+Need to make fishing pole sprites that connect to the bobber after the throw.
+
 ## Day 9:
 <img src = "https://i.imgur.com/8SZVEGr.gif">    
 Rearranged some of the code so that it makes a little more sense when you read it.   
