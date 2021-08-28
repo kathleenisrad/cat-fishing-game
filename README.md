@@ -5,7 +5,7 @@ Wait for a bite, and then reel in the fish (or other items in the lake)!
 Press 1, 2, 3 to change the color of the cat.
 
 ## Day 10:
-<img src = "https://imgur.com/a/lHytF39.gif">
+<img src = "https://i.imgur.com/OlTpaqH.gif">
 Made the throwing animation for the white cat only. 
 Need to make fishing pole sprites that connect to the bobber after the throw.
 
