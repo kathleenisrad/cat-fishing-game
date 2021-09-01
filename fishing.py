@@ -80,8 +80,8 @@ class Cat(pygame.sprite.Sprite):
 
     def update(self, pressed_keys, event):
         '''
-        This method iterates through the elements inside self.images and 
-        displays the next one each tick. 
+        Checks to see if cat is throwing anything. If not throwing, display idle animation. If throwing something, display throwing animation.
+        This method displays the animation by iterating through the elements inside self.images and displaying the next one each tick. 
         Change the sprite color by pressing 1, 2, or 3.
         '''
         if self.throw == False:
@@ -113,9 +113,7 @@ class Cat(pygame.sprite.Sprite):
 
 class Pole(pygame.sprite.Sprite):
     """
-    Represents the cat controlled by the player. 
-    Press 1, 2 , or 3 to change the cat color.
-    Alternate pressing left and right arrow keys to reel in the line. 
+    Represents the pole held by the cat
     """
     def __init__(self):
         super(Pole, self).__init__()
@@ -128,9 +126,8 @@ class Pole(pygame.sprite.Sprite):
         
     def update(self, pressed_keys, event):
         '''
-        This method iterates through the elements inside self.images and 
-        displays the next one each tick. 
-        Change the sprite color by pressing 1, 2, or 3.
+        Display pole image if not being thrown. If being thrown, display throwing animation.
+        This method displays the animation by iterating through the elements inside self.images and displaying the next one each tick.
         '''
         if self.throw == False:
             self.image = self.images[0]
